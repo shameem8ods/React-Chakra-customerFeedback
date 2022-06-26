@@ -1,7 +1,7 @@
 import React from 'react'
 import {Flex, Img,H1} from '@chakra-ui/react'
 
-function CradLeft() {
+function CradLeft({language}) {
   return (
     <Flex  w={'100%'} height={'100%'}  justifyContent='center' alignItems={'center'}>
         <Flex w={['85%','60%']} h='max-content' direction={'column'} justifyContent='center' alignItems={'center'}>
@@ -12,12 +12,20 @@ function CradLeft() {
           </Flex>
         
         <Flex  fontWeight='500' direction={'column'} justifyContent={'center'} alignItems='center'>
-          <Flex fontSize={['22px','28px']} fontWeight='600'>
-          Customer Satisfaction Survey
+        {
+          language == 'arabic'?
+          <Flex fontSize={['25px','32px']} fontWeight='600'>
+          استبيان تقييم خدمات
           </Flex>
+           :<Flex fontSize={['22px','28px']} fontWeight='600'>
+           Customer Satisfaction Survey
+           </Flex>
+}
           <Flex fontSize={['14px','20px']} fontWeight='500'>
-          SMART NTS GOVERNMENT TRANSACTIONS CENTER
+               SMART NTS GOVERNMENT TRANSACTIONS CENTER
           </Flex>
+          
+          
           
           </Flex>
         </Flex>
