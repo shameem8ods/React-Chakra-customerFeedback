@@ -41,7 +41,7 @@ function CardRight1() {
         </Box>
       </Flex>
 
-      <Flex fontSize={['18px', '22px']} fontWeight='500' m='30px 0px 10px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' >
+      <Flex fontSize={['18px', '22px']} fontWeight='500' mb='10px' mt='30px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' >
       How likely are you to visit the center again?
       </Flex>
       <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px'>
@@ -74,7 +74,7 @@ function CardRight1() {
       </Flex>
       <Flex mt={['50px']} justifyContent={'flex-start'} position='relative' w={'100%'} p={['30px']}>
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' left={['38px']} top={['20px']} fontSize={['11px', '15px']}  className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>Please share any additional comments</Box>
-        <Textarea w={['100%', '520px']} backgroundColor='#ffffff78' height={'225px !important'} pt='10px'></Textarea>
+        <Textarea w={['100%']} backgroundColor='#ffffff78' height={'225px !important'} pt='10px'></Textarea>
       </Flex>
       <Flex justifyContent={['center']} w='100%'>
         <Button m={['50px 0px 50px;']} borderRadius={['50px']} backgroundColor='white'>Submit</Button>
