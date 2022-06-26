@@ -25,7 +25,7 @@ function CardRight1() {
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'59px'} left={['29px']} fontSize={['11px', '15px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>Your Mobile Number</Box>
       </Flex>
 
-      <Flex fontSize={['18px', '22px']} fontWeight='500' mb='10px' mt='10px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' >
+      <Flex fontSize={['18px', '22px']} fontWeight='500' mb='10px' mt='10px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' w={'100%'}>
         How do you rate overall performance of the Counter Staff?
       </Flex>
       <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px'>
@@ -41,7 +41,7 @@ function CardRight1() {
         </Box>
       </Flex>
 
-      <Flex fontSize={['18px', '22px']} fontWeight='500' mb='10px' mt='30px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' >
+      <Flex fontSize={['18px', '22px']} fontWeight='500' mb='10px' mt='30px' justifyContent={'left'} padding={['0px 30px;']} textAlign='left' w={'100%'}>
       How likely are you to visit the center again?
       </Flex>
       <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px'>
