@@ -1,15 +1,25 @@
 import React from 'react'
-import {Flex, Img} from '@chakra-ui/react'
+import {Flex, Img,H1} from '@chakra-ui/react'
 
 function CradLeft() {
   return (
     <Flex  w={'100%'} height={'100%'}  justifyContent='center' alignItems={'center'}>
         <Flex w={['85%','60%']} h='max-content' direction={'column'} justifyContent='center' alignItems={'center'}>
-        <Img src='https://amer247.com/wp-content/uploads/2021/02/amerlogo.png' h='20%' w={['70%','80%']} mb='20px' mt={['30px','0px']} className='animate fadeInUp one'></Img>
-        <Flex fontSize={['14px','17px']} fontWeight='500' >
-          <h1 >
-          Amer 247 is a Semi Government Organization, which allows residents to complete all Visa and Residency transactions.Amer 24/7 is the first and only center available 24/7 to assist you with our services
-          </h1></Flex>
+          <Flex justifyContent={'center'} alignItems='center' width={'100%'} className='animate fadeInUp one' m={'30px 0px 15px'}> 
+          <Img src='https://www.smartnts.ae/wp-content/uploads/2017/11/small-logo-150x150.png' h='20%' w={['30%','20%']}   ></Img>
+          <Flex h={'62px'} w='1px' m='0px 5px' backgroundColor={'#808080d4'}></Flex>
+          <Img src='https://www.smartnts.ae/wp-content/uploads/2019/03/99044-1-6.png' h='20%' w={['40%','25%']}   ></Img>
+          </Flex>
+        
+        <Flex  fontWeight='500' direction={'column'} justifyContent={'center'} alignItems='center'>
+          <Flex fontSize={['22px','28px']} fontWeight='600'>
+          Customer Satisfaction Survey
+          </Flex>
+          <Flex fontSize={['14px','20px']} fontWeight='500'>
+          SMART NTS GOVERNMENT TRANSACTIONS CENTER
+          </Flex>
+          
+          </Flex>
         </Flex>
     
     </Flex>
