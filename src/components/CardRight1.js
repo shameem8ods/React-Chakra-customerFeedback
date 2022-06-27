@@ -3,16 +3,23 @@ import { useState } from 'react'
 import { Flex, Img, Box, Textarea, Button, Input,Icon } from '@chakra-ui/react'
 import ReactStars from "react-rating-stars-component";
 import {BsEmojiFrown,BsEmojiNeutral,BsEmojiSmile,BsEmojiLaughing} from 'react-icons/bs'
+import { useNavigate } from "react-router-dom";
 
 
 function CardRight1({language}) {
-console.log(language)
+  let navigate = useNavigate();
   const[name,setName] = useState()
   const[mobile,setMobile] = useState()
   const[staff,setStaff] = useState()
   const[visistAgain,setVisitAgain] = useState()
   const[overall,setOverall] = useState()
   const[review,setReview] = useState()
+
+  const[nameError,setNameError] = useState()
+  const[mobileError,setMobileError] = useState()
+  const[staffError,setStaffError] = useState()
+  const[visitError,setVisitError] = useState()
+  const[overollError,setOverollError] = useState()
 
   const[selected,setSelected] = useState({
     veryBad : '#ffffff78',
@@ -26,17 +33,89 @@ console.log(language)
   const ratingChanged2 = (newRating) => {
     setVisitAgain(newRating)
   };
+
+
   const submitForm=()=>{
-    let data={
-      customer_name:name,
-      customer_phoneNumber:mobile,
-      counter_staff_review:staff,
-      visit_again:visistAgain,
-      overall_feedback:overall,
-      additional_review:review
+    var phoneno = /^\d{9}$/;
+    let a;
+    let b;
+    let c;
+    let d;
+    let e;
+    if(!name){
+      setNameError('pls enter your name')
+      a=1
+    } else {
+      setNameError('')
+      a=0;
     }
-    console.log(data);
+    
+    if (phoneno.test(mobile) == false) {
+      setMobileError('Pls enter a valid mobile number')
+      b=1;
+    }  else{
+      setMobileError('')
+      b=0;
+    }
+    
+    if (!staff) {
+      setStaffError('Pls put your rating')
+      c=1;
+    }  else {
+      setStaffError('')
+      c=0;
+    }
+    
+    if (!visistAgain ) {
+      setVisitError('Pls put your rating')
+      d=1;
+    } else{
+      setVisitError('')
+      d=0;
+    }
+    
+    if (!overall) {
+      setOverollError('Pls select preferred one')
+      e=1;
+    } else {
+      setOverollError('')
+      e=0;
+    }
+    if(name && staff && visistAgain && overall && phoneno.test(mobile) == true){
+      let data={
+        name:name,
+        mobile:mobile,
+        staff:staff,
+        visistAgain:visistAgain,
+        overall:overall,
+        comment:review
+      }
+        const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+    try{
+      fetch('https://amer-backend.herokuapp.com', requestOptions)
+      .then(response => {
+        if(response.status == 200){
+          console.log('submitted successfully')
+          navigate(`/successful`);
+        } else (
+          console.log('an error occured pls try after some time')
+        )
+      } )
+    }catch(err){
+  console.log(err)
+    }
+    
+          
+        
+    }
+     
+   
   }
+
   const handleBorder = (item) =>{
     setOverall(item)
     if(item == 'veryBad'){
@@ -71,7 +150,7 @@ console.log(language)
       })
     }
   }
-
+  
   return (
     <Flex direction={'column'} w={'100%'} pt='50px' justifyContent={'center'} alignItems={['center', 'flex-start']}>
       {
@@ -89,8 +168,13 @@ console.log(language)
         </Flex>
        
       }
-      <Flex position={'relative'} w='100%' p={['20px']}>
-        <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' onChange={(e)=>setName(e.target.value)}/>
+      <Flex position={'relative'} w='100%' p={['20px']} direction={'column'}>
+        <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' onChange={(e)=>setName(e.target.value)} required={true}/>
+        {
+          nameError ?
+          <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='1px' left={'42px'}>{nameError}</Flex>
+          :''
+        }
        {
          language == 'arabic'?
            <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>الاسم</Box>
@@ -98,7 +182,12 @@ console.log(language)
        }
       </Flex>
       <Flex position={'relative'} w='100%' p={['20px']} >
-        <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px'onChange={(e)=>setMobile(e.target.value)}/>
+        <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px'  onChange={(e)=>setMobile(e.target.value)}/>
+        {
+          mobileError ?
+          <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='1px' left={'42px'}>{mobileError}</Flex>
+          :''
+        }
         {
           language == 'arabic'?
           <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>رقم الموبايل</Box>
@@ -115,7 +204,7 @@ console.log(language)
       How do you rate overall performance of the Counter Staff?
     </Flex>
       }
-      <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px'>
+      <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px' position={'relative'}>
         <Box background='#ffffff78'
           borderRadius='20px'
           padding='0px 10px' className='animate fadeInUp one zoom'>
@@ -126,6 +215,11 @@ console.log(language)
             activeColor="#00c31a"
           />
         </Box>
+        {
+          staffError ?
+          <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-18px' left={'42px'}>{staffError}</Flex>
+          :''
+        }
       </Flex>
 
       {
@@ -137,7 +231,7 @@ console.log(language)
         How likely are you to visit the center again?
         </Flex>
       }
-      <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px'>
+      <Flex justifyContent={'left'} alignItems='center' w={'100%'} p='0px 30px' position={'relative'}>
         <Box background='#ffffff78'
           borderRadius='20px'
           padding='0px 10px' className='animate fadeInUp one zoom'>
@@ -148,6 +242,11 @@ console.log(language)
             activeColor="#00c31a"
           />
         </Box>
+        {
+          visitError ?
+          <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-18px' left={'42px'}>{visitError}</Flex>
+          :''
+        }
       </Flex>
 
       {
@@ -159,7 +258,7 @@ console.log(language)
         How was the overall service Provided?
       </Flex>
       }
-      <Flex justifyContent={'left'} alignItems='center' w={'100%'} pl={['30px']} className='animate fadeInUp one '>
+      <Flex justifyContent={'left'} alignItems='center' w={'100%'} pl={['30px']} className='animate fadeInUp one ' position={'relative'}>
         <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}  className=' zoom' onClick={()=>handleBorder('veryBad')} border='2px' borderColor={selected.veryBad}>
           {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/face-without-mouth_1f636.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
           <Icon as={BsEmojiFrown}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='red'/>
@@ -177,6 +276,11 @@ console.log(language)
           {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/smiling-face-with-smiling-eyes_1f60a.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
           <Icon as={BsEmojiLaughing}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='green'/>
           <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['11px', '19px']} fontSize={['11px', '15px']} >Happy</Box></Box>
+          {
+          overollError ?
+          <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-30px' left={'42px'}>{overollError}</Flex>
+          :''
+        }
       </Flex>
       <Flex mt={['50px']} justifyContent={'flex-start'} position='relative' w={'100%'} p={['30px']}>
         {

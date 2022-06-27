@@ -8,7 +8,6 @@ import { useState } from 'react';
 
 function App() {
   const [language,SetLanguage] = useState('english')
-  console.log(language)
   AOS.init()
   return (
     
