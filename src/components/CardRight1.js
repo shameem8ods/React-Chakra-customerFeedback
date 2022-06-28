@@ -32,13 +32,18 @@ function CardRight1({language}) {
     happy : '#ffffff78'
   })
   const ratingChanged = (e) => {
-    console.log(e)
+    var phoneno = /^\d{9}$/;
+    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
+      setSubmitError('') }
     setStaff(e)
     if(e){
       setStaffError('')
     }
   };
   const ratingChanged2 = (e) => {
+    var phoneno = /^\d{9}$/;
+    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
+      setSubmitError('') }
     setVisitAgain(e)
     if(e){
       setVisitError('')
@@ -47,8 +52,6 @@ function CardRight1({language}) {
 
 
   const submitForm=()=>{
-    console.log(staff)
-    console.log(visistAgain)
     var phoneno = /^\d{9}$/;
     let a;
     let b;
@@ -98,6 +101,7 @@ function CardRight1({language}) {
     setSubmitError('Pls fill required fields correctly') 
     }
     if(name && staff && visistAgain && overall && phoneno.test(mobile) == true){
+      setSubmitError('') 
       setIsLoading(true)
       let data={
         name:name,
@@ -138,6 +142,10 @@ function CardRight1({language}) {
   }
 
   const handleBorder = (item) =>{
+     setOverollError('')
+     var phoneno = /^\d{9}$/;
+    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
+      setSubmitError('') }
     setOverall(item)
     if(item == 'veryBad'){
       setSelected({
@@ -173,13 +181,24 @@ function CardRight1({language}) {
   }
 
   const handleMobile=(e)=>{
-    setMobile(e.target.value);
     var phoneno = /^\d{9}$/;
+    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
+      setSubmitError('') }
+    setMobile(e.target.value);
     if(phoneno.test(e.target.value) == true){
       setMobileError('');
     }  
   }
   
+  const handleName=(e)=>{
+    var phoneno = /^\d{9}$/;
+    setName(e);
+    if(name){
+      setNameError('')
+    }
+     if(!nameError && !mobileError && !staffError && !visitError && !overollError){
+      setSubmitError('') }
+  }
   return (
     isLoading?
     <Flex w='100%' h='100vh' justifyContent={'center'} alignItems='center'>
@@ -210,7 +229,7 @@ function CardRight1({language}) {
      
     }
     <Flex position={'relative'} w='100%' p={['20px']} direction={'column'}>
-      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' onChange={(e)=>{setName(e.target.value);name?setNameError(''):""}} required={true}/>
+      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' onChange={(e)=>handleName(e.target.value)} required={true}/>
       {
         nameError ?
         <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='1px' left={'42px'}>{nameError}</Flex>
@@ -300,26 +319,26 @@ function CardRight1({language}) {
     </Flex>
     }
     <Flex justifyContent={'left'} alignItems='center' w={'100%'} pl={['30px']} className='animate fadeInUp one ' position={'relative'} flexWrap='wrap'>
-      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}  className=' zoom' onClick={()=>{handleBorder('veryBad');setOverollError('')}} border='2px' borderColor={selected.veryBad} mb='20px'>
+      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}  className=' zoom' onClick={()=>handleBorder('veryBad')} border='2px' borderColor={selected.veryBad} mb='20px'>
         {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/face-without-mouth_1f636.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
         <Icon as={BsEmojiFrown}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='red'/>
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['5px', '9px']} fontSize={['11px', '15px']} >Very Bad</Box>
       </Box>
-      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr=' 10px' position={'relative'}   className=' zoom' onClick={()=>{handleBorder('bad');setOverollError('')}} border='2px' borderColor={selected.bad} mb='20px'>
+      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr=' 10px' position={'relative'}   className=' zoom' onClick={()=>handleBorder('bad')} border='2px' borderColor={selected.bad} mb='20px'>
         {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/expressionless-face_1f611.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
         <Icon as={BsEmojiNeutral}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='#ff6500'/>
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['17px', '28px']} fontSize={['11px', '15px']} >Bad</Box></Box>
-      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}   className=' zoom' onClick={()=>{handleBorder('average');setOverollError('')}} border='2px' borderColor={selected.average} mb='20px'>
+      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}   className=' zoom' onClick={()=>handleBorder('average')} border='2px' borderColor={selected.average} mb='20px'>
         {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/relieved-face_1f60c.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
         <Icon as={BsEmojiSmile}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='#b6990e'/>
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['7px', '13px']} fontSize={['11px', '15px']} >Average</Box></Box>
-      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}  className=' zoom' onClick={()=>{handleBorder('happy'); setOverollError('')}} border='2px' borderColor={selected.happy} mb='20px'>
+      <Box background={'#ffffff78'} rounded='md' p={['10px 13px 15px', '10px 15px 15px']} mr='10px' position={'relative'}  className=' zoom' onClick={()=>handleBorder('happy')} border='2px' borderColor={selected.happy} mb='20px'>
         {/* <Img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/72/apple/285/smiling-face-with-smiling-eyes_1f60a.png' w={['46px', '67px']} m={['0 auto']}></Img> */}
         <Icon as={BsEmojiLaughing}  w={['46px', '67px']}  h={['46px', '67px']} m={['0 auto']} color='green'/>
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['11px', '19px']} fontSize={['11px', '15px']} >Happy</Box></Box>
         {
         overollError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-30px' left={'42px'}>{overollError}</Flex>
+        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-12px' left={'42px'}>{overollError}</Flex>
         :''
       }
     </Flex>
@@ -329,7 +348,7 @@ function CardRight1({language}) {
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' left={['38px']} top={['20px']} fontSize={['14px', '17px']}  className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>في حال كان لديك أي ملاحظات أخرى، يرجى تركها هنا</Box>
         :<Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' left={['38px']} top={['20px']} fontSize={['11px', '15px']}  className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>Please share any additional comments</Box>
       }
-      <Textarea w={['100%']} backgroundColor='#ffffff78' height={'225px !important'} pt='10px' onChange={(e)=>setReview(e.target.value)}></Textarea>
+      <Textarea w={['100%']} backgroundColor='#ffffff78' height={'225px !important'} pt={['15px','22px']} onChange={(e)=>setReview(e.target.value)}></Textarea>
     </Flex>
     <Flex justifyContent={['center']} w='100%' >
       <Flex position={'relative'} width='max-content'>
