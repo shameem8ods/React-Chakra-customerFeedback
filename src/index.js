@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react'
 import SuccessfullPage from './SuccessfullPage';
+import ErrorPage from './ErrorPage';
 import {
      BrowserRouter,
      Routes,
@@ -18,6 +19,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />}/>
      <Route path="/successful" element={<SuccessfullPage />} />
+     <Route path="/error" element={<ErrorPage />} />
     </Routes>
   </BrowserRouter>
      </ChakraProvider>
