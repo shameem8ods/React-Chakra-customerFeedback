@@ -8,6 +8,8 @@ import { Spinner } from '@chakra-ui/react'
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import env from "react-dotenv";
+
 
 
 
@@ -84,7 +86,8 @@ function CardRight1({language}) {
         staff:staff,
         visistAgain:visistAgain,
         overall:overall,
-        comment:review
+        comment:review,
+        key: env.KEY
       }
         const requestOptions = {
         method: 'POST',
