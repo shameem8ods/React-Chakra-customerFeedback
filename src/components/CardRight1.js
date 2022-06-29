@@ -17,7 +17,11 @@ import env from "react-dotenv";
 function CardRight1({language}) {
   const schema = yup.object().shape({
     nme: yup.string().required(),
-    mobile: yup.string().matches(new RegExp('[0-9]{9}'))
+    mobile: yup.string()
+    .required()
+    .matches(/^[0-9]+$/)
+    .min(9)
+    .max(9)
   });
   
   const { register, formState: { errors },handleSubmit } = useForm({
