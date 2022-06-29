@@ -10,7 +10,7 @@ function SuccessfullPage() {
       Submitted succesfully
     </Heading>
     <Text color={'gray.500'}>
-      Thank your for your valueble feedback...
+    Thank You For Your Valuable Feedback...
     </Text>
   </Box>
   )
