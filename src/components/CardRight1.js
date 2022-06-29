@@ -2,26 +2,36 @@ import React from 'react'
 import { useState } from 'react'
 import { Flex, Img, Box, Textarea, Button, Input,Icon } from '@chakra-ui/react'
 import ReactStars from "react-rating-stars-component";
-import {BsEmojiFrown,BsEmojiNeutral,BsEmojiSmile,BsEmojiLaughing} from 'react-icons/bs'
+import {BsEmojiFrown,BsEmojiNeutral,BsEmojiSmile,BsEmojiLaughing,BsStar} from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 import { Spinner } from '@chakra-ui/react'
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+
 
 
 function CardRight1({language}) {
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    mobile: yup.string().matches(new RegExp('[0-9]{9}'))
+  });
+  
+  const { register, formState: { errors },handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
   let navigate = useNavigate();
-  const[name,setName] = useState()
-  const[mobile,setMobile] = useState()
   const[staff,setStaff] = useState()
   const[visistAgain,setVisitAgain] = useState()
   const[overall,setOverall] = useState()
   const[review,setReview] = useState()
 
-  const[nameError,setNameError] = useState()
-  const[mobileError,setMobileError] = useState()
-  const[staffError,setStaffError] = useState()
-  const[visitError,setVisitError] = useState()
-  const[overollError,setOverollError] = useState()
-  const[submitError,setSubmitError] =useState()
+  
+  const[staffError,setStaffError] = useState(false)
+  const[visitError,setVisitError] = useState(false)
+  const[overollError,setOverollError] = useState(false)
+  
 
   const [isLoading,setIsLoading]=useState(false)
 
@@ -32,80 +42,47 @@ function CardRight1({language}) {
     happy : '#ffffff78'
   })
   const ratingChanged = (e) => {
-    var phoneno = /^\d{9}$/;
-    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
-      setSubmitError('') }
     setStaff(e)
     if(e){
-      setStaffError('')
+      setStaffError(false)
     }
   };
   const ratingChanged2 = (e) => {
-    var phoneno = /^\d{9}$/;
-    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
-      setSubmitError('') }
     setVisitAgain(e)
     if(e){
-      setVisitError('')
+      setVisitError(false)
     }
   };
 
 
-  const submitForm=()=>{
-    var phoneno = /^\d{9}$/;
-    let a;
-    let b;
-    let c;
-    let d;
-    let e;
-    if(!name){
-      setNameError('pls enter your name')
-      a=1
-    } else {
-      setNameError('')
-      a=0;
-    }
-    
-    if (phoneno.test(mobile) == false) {
-      setMobileError('Pls enter a valid mobile number')
-      b=1;
-    }  else{
-      setMobileError('')
-      b=0;
-    }
-    
+  const handleError=()=>{
     if (!staff) {
-      setStaffError('Pls put your rating')
-      c=1;
+      setStaffError(true)
     }  else {
-      setStaffError('')
-      c=0;
+      setStaffError(false)
     }
     
     if (!visistAgain ) {
-      setVisitError('Pls put your rating')
-      d=1;
+      setVisitError(true)
     } else{
-      setVisitError('')
-      d=0;
+      setVisitError(false)
     }
     
     if (!overall) {
-      setOverollError('Pls select preferred one')
-      e=1;
+      setOverollError(true)
     } else {
-      setOverollError('')
-      e=0;
+      setOverollError(false)
     }
-    if(!name || !staff || !visistAgain || !overall || phoneno.test(mobile) == false){
-    setSubmitError('Pls fill required fields correctly') 
-    }
-    if(name && staff && visistAgain && overall && phoneno.test(mobile) == true){
-      setSubmitError('') 
+  }
+
+  const onSubmit=(data)=>{
+    console.log(data)
+   
+    if(staff && visistAgain && overall ){
       setIsLoading(true)
       let data={
-        name:name,
-        mobile:mobile,
+        name:data.name,
+        mobile:data.mobile,
         staff:staff,
         visistAgain:visistAgain,
         overall:overall,
@@ -142,10 +119,7 @@ function CardRight1({language}) {
   }
 
   const handleBorder = (item) =>{
-     setOverollError('')
-     var phoneno = /^\d{9}$/;
-    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
-      setSubmitError('') }
+     setOverollError(false)
     setOverall(item)
     if(item == 'veryBad'){
       setSelected({
@@ -180,25 +154,8 @@ function CardRight1({language}) {
     }
   }
 
-  const handleMobile=(e)=>{
-    var phoneno = /^\d{9}$/;
-    if(!nameError && !mobileError && !staffError && !visitError && !overollError){
-      setSubmitError('') }
-    setMobile(e.target.value);
-    if(phoneno.test(e.target.value) == true){
-      setMobileError('');
-    }  
-  }
   
-  const handleName=(e)=>{
-    var phoneno = /^\d{9}$/;
-    setName(e);
-    if(name){
-      setNameError('')
-    }
-     if(!nameError && !mobileError && !staffError && !visitError && !overollError){
-      setSubmitError('') }
-  }
+ 
   return (
     isLoading?
     <Flex w='100%' h='100vh' justifyContent={'center'} alignItems='center'>
@@ -213,6 +170,7 @@ function CardRight1({language}) {
 
 
     :<Flex direction={'column'} w={'100%'} pt='50px' justifyContent={'center'} alignItems={['center', 'flex-start']}>
+    <form onSubmit={handleSubmit(onSubmit)}>
     {
       language == 'arabic'?
       <Flex p={'0px 30px 20px 30px'} textAlign='left' fontWeight={'500'}  fontSize={['14px','18px']} display='column'>
@@ -229,12 +187,10 @@ function CardRight1({language}) {
      
     }
     <Flex position={'relative'} w='100%' p={['20px']} direction={'column'}>
-      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' onChange={(e)=>handleName(e.target.value)} required={true}/>
-      {
-        nameError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='1px' left={'42px'}>{nameError}</Flex>
-        :''
-      }
+      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' {...register("name")}  />
+      {errors.name&&<p style={{'position': 'absolute',
+    'font-size': '12px',
+    'right': '31px','color':'#7f6f6f'}}>pls enter your name <span style={{'color':'red'}}>*</span></p>}
      {
        language == 'arabic'?
          <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>الاسم</Box>
@@ -242,12 +198,11 @@ function CardRight1({language}) {
      }
     </Flex>
     <Flex position={'relative'} w='100%' p={['20px']} >
-      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px'  onChange={(e)=>handleMobile(e)}/>
-      {
-        mobileError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='1px' left={'42px'}>{mobileError}</Flex>
-        :''
-      }
+      <Input  backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' type="tel"
+      {...register("mobile")}  />
+      {errors.mobile&&<p style={{'position': 'absolute',
+    'font-size': '12px',
+    'right': '31px','color':'#7f6f6f'}}>pls enter your phone number<span style={{'color':'red'}}>*</span></p>}
       {
         language == 'arabic'?
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>رقم الموبايل</Box>
@@ -268,7 +223,7 @@ function CardRight1({language}) {
       <Box background='#ffffff78'
         borderRadius='20px'
         padding='0px 10px' className='animate fadeInUp one zoom'>
-        <ReactStars
+       <ReactStars
           count={5}
           onChange={(e)=>ratingChanged(e)}
           size={24}
@@ -277,9 +232,10 @@ function CardRight1({language}) {
       </Box>
       {
         staffError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-18px' left={'42px'}>{staffError}</Flex>
+        <Flex fontSize={'12px'} color='#7f6f6f' position={'absolute'} bottom='-18px' left={'42px'}>Pls put your rating<span style={{'color':'red'}}>*</span></Flex>
         :''
       }
+      
     </Flex>
 
     {
@@ -304,7 +260,7 @@ function CardRight1({language}) {
       </Box>
       {
         visitError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-18px' left={'42px'}>{visitError}</Flex>
+        <Flex fontSize={'12px'} color='#7f6f6f' position={'absolute'} bottom='-18px' left={'42px'}>Pls put your rating<span style={{'color':'red'}}>*</span></Flex>
         :''
       }
     </Flex>
@@ -338,7 +294,7 @@ function CardRight1({language}) {
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'-10px'} left={['11px', '19px']} fontSize={['11px', '15px']} >Happy</Box></Box>
         {
         overollError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='-12px' left={'42px'}>{overollError}</Flex>
+        <Flex fontSize={'12px'} color='#7f6f6f' position={'absolute'} bottom='-12px' left={'32px'}>Pls select preferred one<span style={{'color':'red'}}>*</span></Flex>
         :''
       }
     </Flex>
@@ -352,15 +308,11 @@ function CardRight1({language}) {
     </Flex>
     <Flex justifyContent={['center']} w='100%' >
       <Flex position={'relative'} width='max-content'>
-      <Button m={['50px 0px 50px;']} borderRadius={['50px']} backgroundColor='white' onClick={submitForm}>Submit</Button>
-      {
-        submitError ?
-        <Flex fontSize={'12px'} color='red' position={'absolute'} bottom='28px' left={'-33px'} whiteSpace='nowrap'>{submitError}</Flex>
-        :''
-      }
+      <Button m={['50px 0px 50px;']} borderRadius={['50px']} backgroundColor='white' type='submit' onClick={handleError}>Submit</Button>
       </Flex>
       
     </Flex>
+    </form>
   </Flex>
   )
 }
