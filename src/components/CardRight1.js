@@ -14,7 +14,7 @@ import * as yup from 'yup';
 
 function CardRight1({language}) {
   const schema = yup.object().shape({
-    name: yup.string().required(),
+    nme: yup.string().required(),
     mobile: yup.string().matches(new RegExp('[0-9]{9}'))
   });
   
@@ -75,14 +75,12 @@ function CardRight1({language}) {
     }
   }
 
-  const onSubmit=(data)=>{
-    console.log(data)
-   
+  const onSubmit=(formData)=>{
     if(staff && visistAgain && overall ){
       setIsLoading(true)
       let data={
-        name:data.name,
-        mobile:data.mobile,
+        name:formData.nme,
+        mobile:formData.mobile,
         staff:staff,
         visistAgain:visistAgain,
         overall:overall,
@@ -159,6 +157,12 @@ function CardRight1({language}) {
   return (
     isLoading?
     <Flex w='100%' h='100vh' justifyContent={'center'} alignItems='center'>
+      <Flex  direction={'column'} width='max-content' backgroundColor={'white'} borderRadius='10px' padding={'10px'} height='max-content' justifyContent={'center'} alignItems='center'> 
+
+      <Flex>
+      <Flex mb='8px'>Please wait...</Flex>
+      <Flex mb='8px'>submitting your feedback</Flex>
+      </Flex>
 <Spinner
   thickness='4px'
   speed='0.65s'
@@ -166,6 +170,8 @@ function CardRight1({language}) {
   color='blue.500'
   size='xl'
 />
+      </Flex>
+     
     </Flex>
 
 
@@ -187,10 +193,10 @@ function CardRight1({language}) {
      
     }
     <Flex position={'relative'} w='100%' p={['20px']} direction={'column'}>
-      <Input type={'text'} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' {...register("name")}  />
-      {errors.name&&<p style={{'position': 'absolute',
+      <Input type={'text'} zIndex={0} backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' {...register("nme")}  />
+      {errors.nme&&<p style={{'position': 'absolute',
     'font-size': '12px',
-    'right': '31px','color':'#7f6f6f'}}>pls enter your name <span style={{'color':'red'}}>*</span></p>}
+    'right': '31px','color':'#7f6f6f','zIndex':'999'}}>pls enter your name <span style={{'color':'red'}}>*</span></p>}
      {
        language == 'arabic'?
          <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>الاسم</Box>
@@ -198,11 +204,12 @@ function CardRight1({language}) {
      }
     </Flex>
     <Flex position={'relative'} w='100%' p={['20px']} >
-      <Input  backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' type="tel"
+      <Box position={'absolute'} top='38px' left={'35px'} zIndex='999' color={'#7f6f6f'}>+971</Box>
+      <Input  backgroundColor='#ffffff78' w={'100%'} h='50px' pt='10px' pl='50px' type="tel" zIndex={'0'}
       {...register("mobile")}  />
       {errors.mobile&&<p style={{'position': 'absolute',
     'font-size': '12px',
-    'right': '31px','color':'#7f6f6f'}}>pls enter your phone number<span style={{'color':'red'}}>*</span></p>}
+    'right': '31px','color':'#7f6f6f','zIndex':'999'}}>pls enter a valid number<span style={{'color':'red'}}>*</span></p>}
       {
         language == 'arabic'?
         <Box position={'absolute'} backgroundColor='white' rounded={'full'} p='2px 10px' bottom={'58px'} left={['29px']} fontSize={['14px', '17px']} className='animate fadeInUp one' zIndex={'999'} fontWeight='500'>رقم الموبايل</Box>
