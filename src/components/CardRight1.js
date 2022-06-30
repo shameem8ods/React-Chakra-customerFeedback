@@ -98,7 +98,7 @@ function CardRight1({language}) {
         body: JSON.stringify(data)
     };
     try{
-      fetch('https://amer-backend.herokuapp.com', requestOptions)
+      fetch('https://amer-backend.herokuapp.com/newSurvey', requestOptions)
       .then(response => {
         if(response.status == 200){
           setIsLoading(false)
