@@ -87,7 +87,7 @@ function CardRight1({language}) {
         name:formData.nme,
         mobile:formData.mobile,
         staff:staff,
-        visistAgain:visistAgain,
+        visitAgain:visistAgain,
         overall:overall,
         comment:review,
         key: 'amer874534778ont-76544'
